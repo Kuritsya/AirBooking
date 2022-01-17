@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Net;
+using System.Net.Mail;
 
 namespace RPO_lab_2
 {
@@ -26,12 +28,7 @@ namespace RPO_lab_2
 
         public Search()
         {
-            InitializeComponent();         
-            if (btn)
-            {
-                seats_listbox.Items.Clear();
-                listbox_write();
-            }
+            InitializeComponent();
         }
 
         private void back_button_Click(object sender, EventArgs e)
@@ -70,9 +67,9 @@ namespace RPO_lab_2
                 foreach (string[] s in data)
                     dataGridView1.Rows.Add(s);
 
-                btn = true;
 
-                seats_listbox.Items.Clear();
+
+                btn = true;
                 listbox_write();
             }
             else
@@ -131,7 +128,8 @@ namespace RPO_lab_2
                             seats[j] = 0.ToString();
                         }
                     }                                                    
-                }       
+                }
+                dr.Close();
 
                 for (int k = 0; k < int.Parse(seat); k++)
                 {
@@ -145,8 +143,7 @@ namespace RPO_lab_2
                 seats_listbox.Items.AddRange(seats_result.Where(x => x != null).ToArray());
                 connect.Close();
             }
-        }
-                
+        }                
 
         private void booking_Click(object sender, EventArgs e)
         {
@@ -159,8 +156,11 @@ namespace RPO_lab_2
             int price;
             string seat;
             string index;
-            
-            if(btn)
+            string mail = "";
+            string number = "";
+            string number_flight = "";
+
+            if (btn)
             {
                 for (int i = 0; i < result; i++)
                 {
@@ -187,12 +187,62 @@ namespace RPO_lab_2
                     }
                     SqlCommand command_2 = new SqlCommand(query, connect);
                     command_2.Parameters.AddWithValue("@id", index);
-                    command_2.Parameters.AddWithValue("@idUser", id_user);
+                        
                     command_2.Parameters.AddWithValue("@seat", seat);
                     command_2.Parameters.AddWithValue("@price", price);
                     res = command_2.ExecuteNonQuery();
                     if (res > 0)
-                        MessageBox.Show("Вы забронировали билет на этот рейс.");
+                    {
+                        MessageBox.Show("Вы забронировали билет на этот рейс. На вашу почту придет сообщение с информацией о вашем бронировании.");
+
+                        string query3 = "SELECT email FROM users WHERE login = @login;";
+                        SqlCommand command_3 = new SqlCommand(query3, connect);
+                        command_3.Parameters.AddWithValue("@login", loginUser.ToString());
+                        SqlDataReader dr = command_3.ExecuteReader();
+                        while (dr.Read())
+                        {
+                            mail = dr.GetValue(0).ToString().Trim();
+                        }
+                        dr.Close();
+
+                        string query4 = "SELECT number FROM tickets WHERE idUser = @user";
+                        SqlCommand command_4 = new SqlCommand(query4, connect);
+                        command_4.Parameters.AddWithValue("@user", id_user);
+                        SqlDataReader dr1 = command_4.ExecuteReader();
+                        while (dr1.Read())
+                        {
+                            number = dr1.GetValue(0).ToString().Trim();
+                        }
+                        dr1.Close();
+
+                        string query5 = "SELECT number FROM flights WHERE idFlight = @id";
+                        SqlCommand command_5 = new SqlCommand(query5, connect);
+                        command_5.Parameters.AddWithValue("@id", index);
+                        SqlDataReader dr2 = command_5.ExecuteReader();
+                        while (dr2.Read())
+                        {
+                            number_flight = dr2.GetValue(0).ToString().Trim();
+                        }
+                        dr2.Close();
+
+                        string body = "Вы забронировали билет №" + number + " на рейс " + departure_airport_textbox.Text + "-" + arrival_airport_textbox.Text + " №" + number_flight + " на " + departure_date_textbox.Text + " с местом №" + seat + ".";
+                        MailAddress fromAdress = new MailAddress("kuritsykur@gmail.com", "Авиасейлс");
+                        MailAddress toAdress = new MailAddress(mail);
+                        MailMessage mailMessage = new MailMessage(fromAdress, toAdress);
+                        mailMessage.Body = body;
+                        mailMessage.Subject = "Бронирование авиабилета";
+
+                        SmtpClient smtpClient = new SmtpClient();
+                        smtpClient.Host = "smtp.gmail.com";
+                        smtpClient.Port = 587;
+                        smtpClient.EnableSsl = true;
+                        smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                        smtpClient.UseDefaultCredentials = false;
+                        smtpClient.Credentials = new NetworkCredential(fromAdress.Address, "testingpassword12");
+
+                        smtpClient.Send(mailMessage);
+                    }
+
                     else
                         MessageBox.Show("Что-то пошло не так. Попробуйте снова.");
                 }

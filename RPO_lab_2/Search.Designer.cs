@@ -50,6 +50,7 @@ namespace RPO_lab_2
             this.check_button = new System.Windows.Forms.Button();
             this.seats_listbox = new System.Windows.Forms.ListBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -102,7 +103,7 @@ namespace RPO_lab_2
             this.departure_date_textbox.Location = new System.Drawing.Point(159, 157);
             this.departure_date_textbox.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.departure_date_textbox.Name = "departure_date_textbox";
-            this.departure_date_textbox.Size = new System.Drawing.Size(524, 29);
+            this.departure_date_textbox.Size = new System.Drawing.Size(320, 29);
             this.departure_date_textbox.TabIndex = 8;
             this.departure_date_textbox.Text = "10-01-2022";
             // 
@@ -271,16 +272,24 @@ namespace RPO_lab_2
             this.label2.Location = new System.Drawing.Point(533, 245);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(151, 50);
+            this.label2.Size = new System.Drawing.Size(150, 50);
             this.label2.TabIndex = 17;
             this.label2.Text = "Выберите место";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(484, 157);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(200, 29);
+            this.dateTimePicker1.TabIndex = 18;
             // 
             // Search
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(695, 614);
+            this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.seats_listbox);
             this.Controls.Add(this.check_button);
@@ -329,5 +338,6 @@ namespace RPO_lab_2
         private System.Windows.Forms.DataGridViewTextBoxColumn plane;
         private System.Windows.Forms.ListBox seats_listbox;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
     }
 }

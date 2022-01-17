@@ -26,7 +26,6 @@ namespace RPO_lab_2
         {
             functional func = new functional();
             string login;
-            Search s = new Search();
 
             int result = func.login(login_textbox.Text, password_textbox.Text);
 
