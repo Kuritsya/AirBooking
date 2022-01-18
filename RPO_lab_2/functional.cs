@@ -9,40 +9,6 @@ namespace RPO_lab_2
 {
     class functional
     {
-        //Паттерн одиночка
-        public class Connection
-        {
-            private static volatile Connection stringCon;
-
-            private string _data;
-
-            public string Data => _data;
-
-            private Connection(string data)
-            {
-                _data = data;
-            }
-
-            public static Connection GetConnection(string data)
-            {
-                if (string.IsNullOrEmpty(data))
-                {
-                    throw new ArgumentNullException(nameof(data));
-                }
-                if (stringCon == null)
-                {
-                    stringCon = new Connection(data);
-                }
-
-                return stringCon;
-            }
-
-            public override string ToString()
-            {
-                return Data;
-            }
-        }
-
         static string connectionString = "Server=LAPTOP-EM03QCFN\\SQLEXPRESS;Database=air_tickets;Trusted_Connection=True;";
         SqlConnection connection = new SqlConnection(connectionString);
 

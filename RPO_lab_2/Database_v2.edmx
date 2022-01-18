@@ -1,0 +1,337 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Database_v2.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="Database_v2StoreContainer">
+    <EntitySet Name="planesSet" EntityType="Database_v2.Store.planesSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="airportsSet" EntityType="Database_v2.Store.airportsSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="usersSet" EntityType="Database_v2.Store.usersSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="flightSet" EntityType="Database_v2.Store.flightSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ticketsSet" EntityType="Database_v2.Store.ticketsSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="ticketsflight" Association="Database_v2.Store.ticketsflight">
+      <End Role="tickets" EntitySet="ticketsSet" />
+      <End Role="flight" EntitySet="flightSet" />
+    </AssociationSet>
+    <AssociationSet Name="flightairports" Association="Database_v2.Store.flightairports">
+      <End Role="flight" EntitySet="flightSet" />
+      <End Role="airports" EntitySet="airportsSet" />
+    </AssociationSet>
+    <AssociationSet Name="flightplanes" Association="Database_v2.Store.flightplanes">
+      <End Role="flight" EntitySet="flightSet" />
+      <End Role="planes" EntitySet="planesSet" />
+    </AssociationSet>
+    <AssociationSet Name="ticketsusers" Association="Database_v2.Store.ticketsusers">
+      <End Role="tickets" EntitySet="ticketsSet" />
+      <End Role="users" EntitySet="usersSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="planesSet">
+    <Key>
+      <PropertyRef Name="idPlane" />
+    </Key>
+    <Property Name="idPlane" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="numberOfSeats" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="airportsSet">
+    <Key>
+      <PropertyRef Name="idAirports" />
+    </Key>
+    <Property Name="idAirports" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="usersSet">
+    <Key>
+      <PropertyRef Name="idUser" />
+    </Key>
+    <Property Name="idUser" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FIO" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="birthday" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="seriaPasport" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="numberPasport" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="login" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="email" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="flightSet">
+    <Key>
+      <PropertyRef Name="idFlight" />
+    </Key>
+    <Property Name="idFlight" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="numebr" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="departureTime" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="arrivalTime" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="idAirport_idAirports" Type="int" Nullable="false" />
+    <Property Name="idPlane_idPlane" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ticketsSet">
+    <Key>
+      <PropertyRef Name="idTicket" />
+    </Key>
+    <Property Name="idTicket" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="number" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="seat" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="price" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="idFlight_idFlight" Type="int" Nullable="false" />
+    <Property Name="idUser_idUser" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="ticketsflight">
+    <End Role="tickets" Type="Database_v2.Store.ticketsSet" Multiplicity="*" />
+    <End Role="flight" Type="Database_v2.Store.flightSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="flight">
+        <PropertyRef Name="idFlight" />
+      </Principal>
+      <Dependent Role="tickets">
+        <PropertyRef Name="idFlight_idFlight" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="flightairports">
+    <End Role="flight" Type="Database_v2.Store.flightSet" Multiplicity="*" />
+    <End Role="airports" Type="Database_v2.Store.airportsSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="airports">
+        <PropertyRef Name="idAirports" />
+      </Principal>
+      <Dependent Role="flight">
+        <PropertyRef Name="idAirport_idAirports" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="flightplanes">
+    <End Role="flight" Type="Database_v2.Store.flightSet" Multiplicity="*" />
+    <End Role="planes" Type="Database_v2.Store.planesSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="planes">
+        <PropertyRef Name="idPlane" />
+      </Principal>
+      <Dependent Role="flight">
+        <PropertyRef Name="idPlane_idPlane" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ticketsusers">
+    <End Role="tickets" Type="Database_v2.Store.ticketsSet" Multiplicity="*" />
+    <End Role="users" Type="Database_v2.Store.usersSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="idUser" />
+      </Principal>
+      <Dependent Role="tickets">
+        <PropertyRef Name="idUser_idUser" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Database_v2" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="Database_v2Container" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="planesSet" EntityType="Database_v2.planes" />
+          <EntitySet Name="airportsSet" EntityType="Database_v2.airports" />
+          <EntitySet Name="usersSet" EntityType="Database_v2.users" />
+          <EntitySet Name="flightSet" EntityType="Database_v2.flight" />
+          <EntitySet Name="ticketsSet" EntityType="Database_v2.tickets" />
+          <AssociationSet Name="ticketsflight" Association="Database_v2.ticketsflight">
+            <End Role="tickets" EntitySet="ticketsSet" />
+            <End Role="flight" EntitySet="flightSet" />
+          </AssociationSet>
+          <AssociationSet Name="flightairports" Association="Database_v2.flightairports">
+            <End Role="flight" EntitySet="flightSet" />
+            <End Role="airports" EntitySet="airportsSet" />
+          </AssociationSet>
+          <AssociationSet Name="flightplanes" Association="Database_v2.flightplanes">
+            <End Role="flight" EntitySet="flightSet" />
+            <End Role="planes" EntitySet="planesSet" />
+          </AssociationSet>
+          <AssociationSet Name="ticketsusers" Association="Database_v2.ticketsusers">
+            <End Role="tickets" EntitySet="ticketsSet" />
+            <End Role="users" EntitySet="usersSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="idUser" />
+          </Key>
+          <Property Name="idUser" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FIO" Type="String" Nullable="false" />
+          <Property Name="birthday" Type="String" Nullable="false" />
+          <Property Name="seriaPasport" Type="String" Nullable="false" />
+          <Property Name="numberPasport" Type="String" Nullable="false" />
+          <Property Name="login" Type="String" Nullable="false" />
+          <Property Name="password" Type="String" Nullable="false" />
+          <Property Name="email" Type="String" Nullable="false" />
+          <NavigationProperty Name="idTicket" Relationship="Database_v2.ticketsusers" FromRole="users" ToRole="tickets" />
+        </EntityType>
+        <EntityType Name="planes">
+          <Key>
+            <PropertyRef Name="idPlane" />
+          </Key>
+          <Property Name="idPlane" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" />
+          <Property Name="numberOfSeats" Type="String" Nullable="false" />
+          <NavigationProperty Name="idFlight" Relationship="Database_v2.flightplanes" FromRole="planes" ToRole="flight" />
+        </EntityType>
+        <EntityType Name="airports">
+          <Key>
+            <PropertyRef Name="idAirports" />
+          </Key>
+          <Property Name="idAirports" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" />
+          <NavigationProperty Name="idFlight" Relationship="Database_v2.flightairports" FromRole="airports" ToRole="flight" />
+        </EntityType>
+        <EntityType Name="tickets">
+          <Key>
+            <PropertyRef Name="idTicket" />
+          </Key>
+          <Property Name="idTicket" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="number" Type="String" Nullable="false" />
+          <Property Name="seat" Type="String" Nullable="false" />
+          <Property Name="price" Type="String" Nullable="false" />
+          <NavigationProperty Name="idFlight" Relationship="Database_v2.ticketsflight" FromRole="tickets" ToRole="flight" />
+          <NavigationProperty Name="idUser" Relationship="Database_v2.ticketsusers" FromRole="tickets" ToRole="users" />
+        </EntityType>
+        <EntityType Name="flight">
+          <Key>
+            <PropertyRef Name="idFlight" />
+          </Key>
+          <Property Name="idFlight" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numebr" Type="String" Nullable="false" />
+          <Property Name="departureTime" Type="String" Nullable="false" />
+          <Property Name="arrivalTime" Type="String" Nullable="false" />
+          <NavigationProperty Name="idTicket" Relationship="Database_v2.ticketsflight" FromRole="flight" ToRole="tickets" />
+          <NavigationProperty Name="idAirport" Relationship="Database_v2.flightairports" FromRole="flight" ToRole="airports" />
+          <NavigationProperty Name="idPlane" Relationship="Database_v2.flightplanes" FromRole="flight" ToRole="planes" />
+        </EntityType>
+        <Association Name="ticketsflight">
+          <End Type="Database_v2.tickets" Role="tickets" Multiplicity="*" />
+          <End Type="Database_v2.flight" Role="flight" Multiplicity="1" />
+        </Association>
+        <Association Name="flightairports">
+          <End Type="Database_v2.flight" Role="flight" Multiplicity="*" />
+          <End Type="Database_v2.airports" Role="airports" Multiplicity="1" />
+        </Association>
+        <Association Name="flightplanes">
+          <End Type="Database_v2.flight" Role="flight" Multiplicity="*" />
+          <End Type="Database_v2.planes" Role="planes" Multiplicity="1" />
+        </Association>
+        <Association Name="ticketsusers">
+          <End Type="Database_v2.tickets" Role="tickets" Multiplicity="*" />
+          <End Type="Database_v2.users" Role="users" Multiplicity="1" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Database_v2StoreContainer" CdmEntityContainer="Database_v2Container">
+    <EntitySetMapping Name="planesSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Database_v2.planes)">
+        <MappingFragment StoreEntitySet="planesSet">
+          <ScalarProperty Name="idPlane" ColumnName="idPlane" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="numberOfSeats" ColumnName="numberOfSeats" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="airportsSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Database_v2.airports)">
+        <MappingFragment StoreEntitySet="airportsSet">
+          <ScalarProperty Name="idAirports" ColumnName="idAirports" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="usersSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Database_v2.users)">
+        <MappingFragment StoreEntitySet="usersSet">
+          <ScalarProperty Name="idUser" ColumnName="idUser" />
+          <ScalarProperty Name="FIO" ColumnName="FIO" />
+          <ScalarProperty Name="birthday" ColumnName="birthday" />
+          <ScalarProperty Name="seriaPasport" ColumnName="seriaPasport" />
+          <ScalarProperty Name="numberPasport" ColumnName="numberPasport" />
+          <ScalarProperty Name="login" ColumnName="login" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="email" ColumnName="email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="flightSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Database_v2.flight)">
+        <MappingFragment StoreEntitySet="flightSet">
+          <ScalarProperty Name="idFlight" ColumnName="idFlight" />
+          <ScalarProperty Name="numebr" ColumnName="numebr" />
+          <ScalarProperty Name="departureTime" ColumnName="departureTime" />
+          <ScalarProperty Name="arrivalTime" ColumnName="arrivalTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ticketsSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Database_v2.tickets)">
+        <MappingFragment StoreEntitySet="ticketsSet">
+          <ScalarProperty Name="idTicket" ColumnName="idTicket" />
+          <ScalarProperty Name="number" ColumnName="number" />
+          <ScalarProperty Name="seat" ColumnName="seat" />
+          <ScalarProperty Name="price" ColumnName="price" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="ticketsflight" TypeName="Database_v2.ticketsflight" StoreEntitySet="ticketsSet">
+      <EndProperty Name="flight">
+        <ScalarProperty Name="idFlight" ColumnName="idFlight_idFlight" />
+      </EndProperty>
+      <EndProperty Name="tickets">
+        <ScalarProperty Name="idTicket" ColumnName="idTicket" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="flightairports" TypeName="Database_v2.flightairports" StoreEntitySet="flightSet">
+      <EndProperty Name="airports">
+        <ScalarProperty Name="idAirports" ColumnName="idAirport_idAirports" />
+      </EndProperty>
+      <EndProperty Name="flight">
+        <ScalarProperty Name="idFlight" ColumnName="idFlight" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="flightplanes" TypeName="Database_v2.flightplanes" StoreEntitySet="flightSet">
+      <EndProperty Name="planes">
+        <ScalarProperty Name="idPlane" ColumnName="idPlane_idPlane" />
+      </EndProperty>
+      <EndProperty Name="flight">
+        <ScalarProperty Name="idFlight" ColumnName="idFlight" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ticketsusers" TypeName="Database_v2.ticketsusers" StoreEntitySet="ticketsSet">
+      <EndProperty Name="users">
+        <ScalarProperty Name="idUser" ColumnName="idUser_idUser" />
+      </EndProperty>
+      <EndProperty Name="tickets">
+        <ScalarProperty Name="idTicket" ColumnName="idTicket" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

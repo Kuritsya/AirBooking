@@ -33,6 +33,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.SqlServer.ConnectionDlg.AadAuthenticationProvider, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.SqlServer.ConnectionDlg.Core, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.SqlServer.ConnectionDlg.UI, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
@@ -44,8 +50,11 @@
     <Reference Include="MySql.Data.EntityFramework, Version=8.0.20.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="MySql.Web, Version=8.0.20.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SqlXml" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -57,16 +66,45 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="airports.cs">
+      <DependentUpon>Database_v2.tt</DependentUpon>
+    </Compile>
     <Compile Include="air_ticketsDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>air_ticketsDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Calculator.cs" />
     <Compile Include="Cheking.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Cheking.Designer.cs">
       <DependentUpon>Cheking.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database_v2.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Database_v2.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database_v2.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Database_v2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database_v2.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Database_v2.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Flghts_list.cs" />
+    <Compile Include="flight.cs">
+      <DependentUpon>Database_v2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MyFlights.cs" />
+    <Compile Include="Interfaces.cs" />
+    <Compile Include="MyTickets.cs" />
+    <Compile Include="planes.cs">
+      <DependentUpon>Database_v2.tt</DependentUpon>
     </Compile>
     <Compile Include="Search.cs">
       <SubType>Form</SubType>
@@ -88,6 +126,22 @@
     </Compile>
     <Compile Include="Registration.Designer.cs">
       <DependentUpon>Registration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source.cs" />
+    <Compile Include="SourceDetail.xaml.cs">
+      <DependentUpon>SourceDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SourceFlyout.xaml.cs">
+      <DependentUpon>SourceFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SourceFlyoutMenuItem.cs" />
+    <Compile Include="tickets.cs">
+      <DependentUpon>Database_v2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MyUsers.cs" />
+    <Compile Include="TicketsUsers.cs" />
+    <Compile Include="users.cs">
+      <DependentUpon>Database_v2.tt</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Cheking.resx">
       <DependentUpon>Cheking.cs</DependentUpon>
@@ -121,6 +175,14 @@
     <None Include="air_ticketsDataSet.xss">
       <DependentUpon>air_ticketsDataSet.xsd</DependentUpon>
     </None>
+    <EntityDeploy Include="Database_v2.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Database_v2.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Database_v2.edmx.diagram">
+      <DependentUpon>Database_v2.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -133,6 +195,32 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Database_v2.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Database_v2.Context.cs</LastGenOutput>
+      <DependentUpon>Database_v2.edmx</DependentUpon>
+    </Content>
+    <Content Include="Database_v2.edmx.sql" />
+    <Content Include="Database_v2.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Database_v2.cs</LastGenOutput>
+      <DependentUpon>Database_v2.edmx</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SourceFlyout.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SourceDetail.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
